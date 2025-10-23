@@ -1,0 +1,16 @@
+services:
+  bot:
+    build: .
+    env_file:
+      - /data/NevestaAI/.env
+    container_name: nevestaai
+    restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "https://api.telegram.org" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - /data/russian_trusted_root_ca_pem.crt:/app/russian_trusted_root_ca_pem.crt
+      - /data/NevestaAI/logs:/app/logs
+    command: ["python", "main.py"]
